@@ -1,32 +1,22 @@
 import { experiences } from "@/data/experiences";
 import { getPriceBounds } from "@/lib/experiences";
 import { ExperiencesPageClient } from "@/components/experiences/ExperiencesPageClient";
-import type { ExperienceCategory } from "@/types";
-
-const CATEGORIES: readonly string[] = [
-  "Gastronomía",
-  "Aventura y Naturaleza",
-  "Cultura",
-  "Relax",
-  "Entretenimiento",
-  "Escapadas",
-];
+import { parseExperienceSearchParams, type RawSearchParams } from "@/lib/experience-url-params";
 
 interface ExperiencesPageProps {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<RawSearchParams>;
 }
 
 export default async function ExperiencesPage({ searchParams }: ExperiencesPageProps) {
-  const { category } = await searchParams;
-  const initialCategory = CATEGORIES.includes(category ?? "")
-    ? (category as ExperienceCategory)
-    : undefined;
+  const rawSearchParams = await searchParams;
+  const priceBounds = getPriceBounds();
+  const initialFilters = parseExperienceSearchParams(rawSearchParams, priceBounds);
 
   return (
     <ExperiencesPageClient
       experiences={experiences}
-      priceBounds={getPriceBounds()}
-      initialCategory={initialCategory}
+      priceBounds={priceBounds}
+      initialFilters={initialFilters}
     />
   );
 }

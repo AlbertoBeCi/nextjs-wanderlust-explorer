@@ -5,10 +5,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { CheckboxFilterGroup } from "@/components/experiences/CheckboxFilterGroup";
 import { PriceRangeFilter } from "@/components/experiences/PriceRangeFilter";
 import { Button } from "@/components/ui/Button";
-
-const CATEGORIES = ["Gastronomía", "Aventura y Naturaleza", "Cultura", "Relax", "Entretenimiento", "Escapadas"] as const;
-const DESTINATIONS = ["Montaña", "Playa", "Ciudad", "Rural", "Nieve", "Costa", "Islas", "Interior"] as const;
-const GROUP_TYPES = ["Pareja", "Grupo de amigos", "Familia", "Solo"] as const;
+import { CATEGORIES, DESTINATIONS, GROUP_TYPES } from "@/lib/experience-options";
 
 interface FilterSidebarProps {
   filters: ExperienceFilters;
@@ -33,6 +30,13 @@ export function FilterSidebar({ filters, onChange, priceBounds, onClear }: Filte
           options={DESTINATIONS}
           selected={filters.destinations}
           onChange={(destinations) => onChange({ ...filters, destinations: destinations as ExperienceFilters["destinations"] })}
+        />
+        <input
+          type="text"
+          value={filters.locationQuery}
+          onChange={(event) => onChange({ ...filters, locationQuery: event.target.value })}
+          placeholder="Ciudad o país"
+          className="mt-3 w-full rounded-xl border border-primary/15 bg-transparent px-3 py-2 text-sm text-neutral placeholder:text-neutral/50 dark:border-white/15 dark:text-surface dark:placeholder:text-surface/50"
         />
       </Accordion>
 

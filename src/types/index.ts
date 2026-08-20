@@ -44,4 +44,5 @@ export interface ExperienceFilters {
   destinations: ExperienceDestination[];
   groupTypes: GroupType[];
   priceRange: PriceRange;
+  locationQuery: string;
 }

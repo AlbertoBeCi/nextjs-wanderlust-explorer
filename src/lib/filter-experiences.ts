@@ -1,18 +1,25 @@
 import type { Experience, ExperienceFilters } from "@/types";
 
+function buildSafeRegex(pattern: string): RegExp | null {
+  if (pattern === "") return null;
+  try {
+    return new RegExp(pattern, "i");
+  } catch {
+    return null;
+  }
+}
+
 export function filterExperiences(
   list: Experience[],
   filters: ExperienceFilters
 ): Experience[] {
-  let searchRegex: RegExp | null = null;
-  try {
-    searchRegex = filters.search === "" ? null : new RegExp(filters.search, "i");
-  } catch {
-    searchRegex = null;
-  }
+  const searchRegex = buildSafeRegex(filters.search);
+  const locationRegex = buildSafeRegex(filters.locationQuery);
 
   return list.filter((experience) => {
     const matchesSearch = searchRegex === null || searchRegex.test(experience.title);
+
+    const matchesLocation = locationRegex === null || locationRegex.test(experience.location);
 
     const matchesCategory =
       filters.categories.length === 0 || filters.categories.includes(experience.category);
@@ -29,6 +36,7 @@ export function filterExperiences(
 
     return (
       matchesSearch &&
+      matchesLocation &&
       matchesCategory &&
       matchesDestination &&
       matchesGroupType &&

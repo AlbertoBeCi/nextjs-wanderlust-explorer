@@ -62,3 +62,9 @@ Quiero que las imágenes tengan sentido con el título de la tarjeta
 ## Prompt 9
 
 en algunas imágenes se aprecia un fondo rojo horrible, las fotos deben ocupar fullsize
+
+---
+
+## Prompt 10
+
+añade un filtro de destino, que filtre por ciudad o pais de destino
